@@ -17,7 +17,7 @@ public class MainClass
 
     private static int GetDiagSum(List<List<int>> grid)
     {
-        if (grid.Count != grid[0].Count)
+        if (grid.Count != grid[0].Count) //сомнителько но окэй
         {
             return -1; // Размеры списка по высоте и ширине разные
         }
