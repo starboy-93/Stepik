@@ -11,15 +11,14 @@ public class MainClass
 
         var result = GetDiagSum(grid);
 
-
         Console.WriteLine(result);
     }
 
     private static int GetDiagSum(List<List<int>> grid)
     {
-        if (grid.Count != grid[0].Count) //сомнителько но окэй
+        if (grid.Count != grid[0].Count) //сомнительно, но окэй
         {
-            return -1; // Размеры списка по высоте и ширине разные
+            return -1; //размеры списка по высоте и ширине разные
         }
 
         int sum = 0;
@@ -27,8 +26,8 @@ public class MainClass
 
         for (int i = 0; i < n; i++)
         {
-            sum += grid[i][i]; // Сумма по главной диагонали
-            sum += grid[i][n - 1 - i]; // Сумма по побочной диагонали
+            sum += grid[i][i]; //сумма по главной диагонали
+            sum += grid[i][n - 1 - i]; //сумма по побочной диагонали
         }
 
         return sum;
