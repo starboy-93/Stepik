@@ -1,39 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json;
-using System.Collections.Generic;
 using System.Linq;
 
 public class MainClass
 {
     public static void Main(string[] args)
     {
-        List<List<int>> data = ReadInput();
-        var result = ColumnSum(data);
-        Console.WriteLine(JsonSerializer.Serialize(result));
+        List<int> data = ReadInput();
+        string result = Balance(data);
+        Console.WriteLine(result);
     }
 
-    public static List<int> ColumnSum(List<List<int>> data)
+    public static string Balance(List<int> data)
     {
-        var res = new List<int>();
-        int counter = 0;
+        int center = data.Count / 2;
+        int left = 0;
+        int right = 0;
+        string result = "";
 
-        foreach (var list in data)
-            if (list.Count > counter)
-                counter = list.Count;
+        for (int i = 0; i < center; i++)
+            left += data[i];
 
-        for (var i = 0; i < counter; i++)
-            res.Add(0);
-        
-        foreach (var list in data)
-            for (var i = 0; i < list.Count; i++)
-                res[i] += list[i];
+        for (int i = center; i < data.Count; i++)
+            right += data[i];
 
-        return res;
+        if (left > right)
+            result = "Левая сторона тяжелее";
+        else if (right > left)
+            result = "Правая сторона тяжелее";
+        else
+            result = "Обе стороны сбалансированы";
+
+        return result;
     }
-    public static List<List<int>> ReadInput()
+
+    public static List<int> ReadInput()
     {
         string input = Console.ReadLine();
-        return JsonSerializer.Deserialize<List<List<int>>>(input.Trim());
+        return JsonSerializer.Deserialize<List<int>>(input.Trim());
     }
 }
