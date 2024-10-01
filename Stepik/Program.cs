@@ -8,7 +8,7 @@ public class MainClass
     public static void Main(string[] args)
     {
         List<string> data = ReadInput();
-        var result = data.Where(x => x.StartsWith("image"));
+        var result = data.Where(x => x.EndsWith(".png"));
 
         Console.WriteLine(JsonSerializer.Serialize(result));
     }
