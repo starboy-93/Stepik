@@ -7,16 +7,15 @@ public class MainClass
 {
     public static void Main(string[] args)
     {
-        List<string> data = ReadInput();
-        var result = data.Where(x => x.EndsWith(".png"));
+        List<int> data = ReadInput();
+        var result = data.FirstOrDefault(x => x < 0);
 
         Console.WriteLine(JsonSerializer.Serialize(result));
     }
 
-
-    public static List<string> ReadInput()
+    public static List<int> ReadInput()
     {
         string input = Console.ReadLine();
-        return JsonSerializer.Deserialize<List<string>>(input.Trim());
+        return JsonSerializer.Deserialize<List<int>>(input.Trim());
     }
 }
