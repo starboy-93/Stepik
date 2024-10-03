@@ -8,8 +8,7 @@ public class MainClass
     public static void Main(string[] args)
     {
         List<int> data = ReadInput();
-        var result = data.FirstOrDefault(x => x < 0);
-
+        List<int> result = data.Select(x => x * -1).ToList();
         Console.WriteLine(JsonSerializer.Serialize(result));
     }
 
