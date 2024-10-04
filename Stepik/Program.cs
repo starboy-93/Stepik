@@ -8,7 +8,7 @@ public class MainClass
     public static void Main(string[] args)
     {
         List<int> data = ReadInput();
-        List<int> result = data.Select(x => x * -1).ToList();
+        List<int> result = data.Select(x => x * data.Max()).ToList();
         Console.WriteLine(JsonSerializer.Serialize(result));
     }
 
