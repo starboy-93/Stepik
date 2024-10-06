@@ -8,7 +8,7 @@ public class MainClass
     public static void Main(string[] args)
     {
         List<int> data = ReadInput();
-        List<int> result = data.Where(x => x > data.Average()).ToList();
+        var result = Enumerable.Range(1, data.Count - 1).Where(x => data[x] > data[x - 1]).Select(x => data.ElementAt(x)).ToList();
         Console.WriteLine(JsonSerializer.Serialize(result));
     }
 
