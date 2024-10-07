@@ -7,14 +7,23 @@ public class MainClass
 {
     public static void Main(string[] args)
     {
-        List<int> data = ReadInput();
-        var result = Enumerable.Range(1, data.Count - 1).Where(x => data[x] > data[x - 1]).Select(x => data.ElementAt(x)).ToList();
+        List<List<int>> data = ReadInput();
+        List<int> result = RowSum(data);
         Console.WriteLine(JsonSerializer.Serialize(result));
     }
 
-    public static List<int> ReadInput()
+    public static List<int> RowSum(List<List<int>> data)
+    {
+        var res = new List<int>();
+
+        foreach (var list in data)
+            res.Add(list.Sum());
+        return res;
+    }
+
+    public static List<List<int>> ReadInput()
     {
         string input = Console.ReadLine();
-        return JsonSerializer.Deserialize<List<int>>(input.Trim());
+        return JsonSerializer.Deserialize<List<List<int>>>(input.Trim());
     }
 }
