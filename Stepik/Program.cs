@@ -7,23 +7,28 @@ public class MainClass
 {
     public static void Main(string[] args)
     {
-        List<List<int>> data = ReadInput();
-        List<int> result = RowSum(data);
-        Console.WriteLine(JsonSerializer.Serialize(result));
+        List<double> data = ReadInput();
+        string result = CountNumbers(data);
+        Console.WriteLine(result);
     }
 
-    public static List<int> RowSum(List<List<int>> data)
+    public static string CountNumbers(List<double> data)
     {
-        var res = new List<int>();
-
-        foreach (var list in data)
-            res.Add(list.Sum());
-        return res;
+        int uniqueCount = data.GroupBy(n => n)
+                                  .Where(g => g.Count() == 1)
+                                  .Select(g => new { Value = g.Key }).Count(); ;
+        int duplicateCount = data.GroupBy(n => n)
+                                  .Where(g => g.Count() > 1)
+                                  .Select(g => new { Value = g.Key }).Count();
+        int zeroCount = data.Count(x => x == 0);
+        int evenCount = data.Count(x => x % 2 == 0 && x != 0);
+        int oddCount = data.Count(x => x % 2 != 0);
+        return string.Join(", ", uniqueCount, duplicateCount, zeroCount, evenCount, oddCount);
     }
 
-    public static List<List<int>> ReadInput()
+    public static List<double> ReadInput()
     {
         string input = Console.ReadLine();
-        return JsonSerializer.Deserialize<List<List<int>>>(input.Trim());
+        return JsonSerializer.Deserialize<List<double>>(input);
     }
 }
