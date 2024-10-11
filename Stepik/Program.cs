@@ -3,26 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 
+
 public class MainClass
 {
     public static void Main(string[] args)
     {
-        List<int> data = ReadInput();
-        string result = CountZerosBeforeAndAfter(data);
-        Console.WriteLine(result);
+        int length = ReadInput();
+        List<int> result = GenerateList(length);
+        Console.WriteLine(JsonSerializer.Serialize(result));
     }
 
-    public static string CountZerosBeforeAndAfter(List<int> data)
+    public static List<int> GenerateList(int length)
     {
-        var index = data.FindIndex(x => x == 1);
-        var before = Enumerable.Range(0, data.Count()).Where(x => x < data.IndexOf(1) && data[x] == 0).Count();
-        var after = Enumerable.Range(0, data.Count()).Where(x => x > data.IndexOf(1) && data[x] == 0).Count();
-        return $"Количество нулей перед единицей: {before}, Количество нулей после единицы: {after}";
+        var list = new List<int>();
+        for (int i = length; i >= 1; i--)
+            list.Add(i * 3);
+
+        return list;
     }
 
-    public static List<int> ReadInput()
+    public static int ReadInput()
     {
         string input = Console.ReadLine();
-        return JsonSerializer.Deserialize<List<int>>(input.Trim());
+        return int.Parse(input.Trim());
     }
 }
