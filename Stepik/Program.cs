@@ -14,9 +14,10 @@ public class MainClass
 
     public static string CountZerosBeforeAndAfter(List<int> data)
     {
-        var numbers = data.Select(x => x.ToString());
-        var arr = string.Join("", numbers).Split('1');
-        return $"Количество нулей перед единицей: {arr[0].Count()}, Количество нулей после единицы: {arr[1].Count()}";
+        var index = data.FindIndex(x => x == 1);
+        var before = Enumerable.Range(0, data.Count()).Where(x => x < data.IndexOf(1) && data[x] == 0).Count();
+        var after = Enumerable.Range(0, data.Count()).Where(x => x > data.IndexOf(1) && data[x] == 0).Count();
+        return $"Количество нулей перед единицей: {before}, Количество нулей после единицы: {after}";
     }
 
     public static List<int> ReadInput()
