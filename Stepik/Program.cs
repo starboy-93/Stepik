@@ -16,8 +16,12 @@ public class MainClass
     public static List<int> GenerateList(int length)
     {
         var list = new List<int>();
+        for (int i = 1; i <= length; i++)
+            list.Add(i);
+        
         for (int i = length; i >= 1; i--)
-            list.Add(i * 3);
+            list.Add(i);
+
 
         return list;
     }
