@@ -2,34 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-
+using System.Text.RegularExpressions;
 
 public class MainClass
 {
     public static void Main(string[] args)
     {
-        int length = ReadInput();
-        List<int> result = GenerateList(length);
-        Console.WriteLine(JsonSerializer.Serialize(result));
+        List<int> data = ReadInput();
+        int result = FindMostFrequentElement(data);
+        Console.WriteLine(result);
     }
 
-    public static List<int> GenerateList(int length)
+    public static int FindMostFrequentElement(List<int> data)
     {
-        var list = new List<int>();
-        for (int i = 0; i < length; i++)
-        {
-            if (i % 2 == 0)
-                list.Add(1);
-            else
-                list.Add(i % 3);
-        }
-
-        return list;
+        return data.GroupBy(n => n).OrderByDescending(g => g.Count()).FirstOrDefault().Key;
     }
 
-    public static int ReadInput()
+    public static List<int> ReadInput()
     {
         string input = Console.ReadLine();
-        return int.Parse(input.Trim());
+        int[] dataArray = JsonSerializer.Deserialize<int[]>(input);
+        return dataArray.ToList();
     }
 }
