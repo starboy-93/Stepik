@@ -2,20 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 
 public class MainClass
 {
     public static void Main(string[] args)
     {
         List<int> data = ReadInput();
-        int result = FindMostFrequentElement(data);
+        int result = FindLongestSeries(data);
         Console.WriteLine(result);
     }
 
-    public static int FindMostFrequentElement(List<int> data)
+    public static int FindLongestSeries(List<int> data)
     {
-        return data.GroupBy(n => n).OrderByDescending(g => g.Count()).FirstOrDefault().Key;
+        int counter = 1;
+        var l = new List<int>();
+        for (int i = 0; i < data.Count - 1; i++)
+        {
+            if (data[i] < data[i+1])
+                counter++;
+            else
+            {
+                l.Add(counter);
+                counter = 1;
+            }
+            l.Add(counter);
+        }
+        return l.Max();
     }
 
     public static List<int> ReadInput()
