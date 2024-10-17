@@ -7,20 +7,22 @@ public class MainClass
 {
     public static void Main(string[] args)
     {
-        List<int> data = ReadInput();
-        int result = FindSeriesCount(data);
+        List<int> prices = ReadInput();
+        int result = CalculateDifference(prices);
         Console.WriteLine(result);
     }
 
-    public static int FindSeriesCount(List<int> data)
+    public static int CalculateDifference(List<int> prices)
     {
-        return Enumerable.Range(1, data.Count - 1).Where(x => data[x] == data[x - 1]).Count(); 
+        for (int i = 0; i < prices.Count; i++)
+            if (i % 2 == 0)
+                prices[i] = prices[i] * -1;
+        return prices.Sum();
     }
 
     public static List<int> ReadInput()
     {
         string input = Console.ReadLine();
-        int[] dataArray = JsonSerializer.Deserialize<int[]>(input);
-        return dataArray.ToList();
+        return JsonSerializer.Deserialize<List<int>>(input.Trim());
     }
 }
