@@ -7,22 +7,26 @@ public class MainClass
 {
     public static void Main(string[] args)
     {
-        List<int> prices = ReadInput();
-        int result = CalculateDifference(prices);
+        List<int> data = ReadInput();
+        for (int i = 0; i < data.Count; i++)
+            if (data[i] < 0)
+                data[i] *= -1;
+
+        int result = data.Sum();
+        if (result > 5)
+            if (result % 5 == 0)
+                result += (result / 5) - 1;
+            else
+                result += (result / 5);
+
         Console.WriteLine(result);
     }
 
-    public static int CalculateDifference(List<int> prices)
-    {
-        for (int i = 0; i < prices.Count; i++)
-            if (i % 2 == 0)
-                prices[i] = prices[i] * -1;
-        return prices.Sum();
-    }
 
     public static List<int> ReadInput()
     {
         string input = Console.ReadLine();
-        return JsonSerializer.Deserialize<List<int>>(input.Trim());
+        int[] dataArray = JsonSerializer.Deserialize<int[]>(input);
+        return dataArray.ToList();
     }
 }
