@@ -7,26 +7,25 @@ public class MainClass
 {
     public static void Main(string[] args)
     {
-        List<int> data = ReadInput();
-        for (int i = 0; i < data.Count; i++)
-            if (data[i] < 0)
-                data[i] *= -1;
-
-        int result = data.Sum();
-        if (result > 5)
-            if (result % 5 == 0)
-                result += (result / 5) - 1;
-            else
-                result += (result / 5);
-
-        Console.WriteLine(result);
+        List<List<int>> data = ReadInput();
+        bool result = IsValidPool(data);
+        Console.WriteLine(result.ToString().ToLower());
     }
 
+    public static bool IsValidPool(List<List<int>> data)
+    {
+        foreach (var row in data)
+            if (row[0] == 1 || row[row.Count - 1] == 1)
+                return false;
 
-    public static List<int> ReadInput()
+        if (data.ElementAt(0).Contains(1) || data.ElementAt(data.Count - 1).Contains(1))
+            return false;
+        return true;
+    }
+
+    public static List<List<int>> ReadInput()
     {
         string input = Console.ReadLine();
-        int[] dataArray = JsonSerializer.Deserialize<int[]>(input);
-        return dataArray.ToList();
+        return JsonSerializer.Deserialize<List<List<int>>>(input);
     }
 }
