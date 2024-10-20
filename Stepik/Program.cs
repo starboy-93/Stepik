@@ -7,25 +7,29 @@ public class MainClass
 {
     public static void Main(string[] args)
     {
-        List<List<int>> data = ReadInput();
-        bool result = IsValidPool(data);
-        Console.WriteLine(result.ToString().ToLower());
+        (List<List<int>> intervals, int point) = ReadInput();
+        int result = 0;
+
+        foreach (var arr in intervals)
+        { 
+            var start = arr[0];
+            var finish = arr[arr.Count - 1];
+            for (int i = start; i <= finish; i++)
+                if (i == point)
+                    result++;
+        }
+        Console.WriteLine(result);
     }
 
-    public static bool IsValidPool(List<List<int>> data)
-    {
-        foreach (var row in data)
-            if (row[0] == 1 || row[row.Count - 1] == 1)
-                return false;
-
-        if (data.ElementAt(0).Contains(1) || data.ElementAt(data.Count - 1).Contains(1))
-            return false;
-        return true;
-    }
-
-    public static List<List<int>> ReadInput()
+    public static (List<List<int>> intervals, int point) ReadInput()
     {
         string input = Console.ReadLine();
-        return JsonSerializer.Deserialize<List<List<int>>>(input);
+
+        string[] values = input.Split(" | ");
+
+        List<List<int>> intervals = JsonSerializer.Deserialize<List<List<int>>>(values[0]);
+        int point = int.Parse(values[1]);
+
+        return (intervals, point);
     }
 }
