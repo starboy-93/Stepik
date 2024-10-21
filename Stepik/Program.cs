@@ -7,29 +7,42 @@ public class MainClass
 {
     public static void Main(string[] args)
     {
-        (List<List<int>> intervals, int point) = ReadInput();
-        int result = 0;
+        (List<string> classifications, List<int> prices) = ReadInput();
 
-        foreach (var arr in intervals)
-        { 
-            var start = arr[0];
-            var finish = arr[arr.Count - 1];
-            for (int i = start; i <= finish; i++)
-                if (i == point)
-                    result++;
-        }
-        Console.WriteLine(result);
+        List<int> result = Prices(classifications, prices);
+
+        Console.WriteLine(JsonSerializer.Serialize(result));
     }
 
-    public static (List<List<int>> intervals, int point) ReadInput()
+    public static List<int> Prices(List<string> classifications, List<int> prices)
+    {
+        var s1 = 0;
+        var s2 = 0;
+
+
+        for (int i = 0; i < classifications.Count; i++)
+        {
+            if (classifications[i] == "S")
+                s1 += prices[i];
+            else
+            {
+                s1 += prices[i] / 2;
+                s2 += prices[i] / 2;
+            }
+        }
+
+        return new List<int> { s1, s2 };
+    }
+
+    public static (List<string>, List<int>) ReadInput()
     {
         string input = Console.ReadLine();
 
         string[] values = input.Split(" | ");
 
-        List<List<int>> intervals = JsonSerializer.Deserialize<List<List<int>>>(values[0]);
-        int point = int.Parse(values[1]);
+        List<string> classifications = JsonSerializer.Deserialize<List<string>>(values[0]);
+        List<int> prices = JsonSerializer.Deserialize<List<int>>(values[1]);
 
-        return (intervals, point);
+        return (classifications, prices);
     }
 }
