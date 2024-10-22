@@ -1,48 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
 
 public class MainClass
 {
     public static void Main(string[] args)
     {
-        (List<string> classifications, List<int> prices) = ReadInput();
-
-        List<int> result = Prices(classifications, prices);
-
+        int n = ReadInput();
+        List<string> result = GenerateList(n);
         Console.WriteLine(JsonSerializer.Serialize(result));
     }
 
-    public static List<int> Prices(List<string> classifications, List<int> prices)
+    public static List<string> GenerateList(int n)
     {
-        var s1 = 0;
-        var s2 = 0;
-
-
-        for (int i = 0; i < classifications.Count; i++)
+        var result = new List<string>();
+        if (n == 1)
+            result.Add(new string('#', n));
+        else if (n == 2)
         {
-            if (classifications[i] == "S")
-                s1 += prices[i];
-            else
-            {
-                s1 += prices[i] / 2;
-                s2 += prices[i] / 2;
-            }
+            result.Add(new string('#', n));
+            result.Add(new string('#', n));
         }
-
-        return new List<int> { s1, s2 };
+        else
+        {
+            result.Add(new string('#', n));
+            for (int i = 0; i < n - 2; i++)
+                result.Add('#' + new string(' ', n - 2) + '#');
+            result.Add(new string('#', n));
+        } 
+        return result;
     }
 
-    public static (List<string>, List<int>) ReadInput()
+    public static int ReadInput()
     {
         string input = Console.ReadLine();
-
-        string[] values = input.Split(" | ");
-
-        List<string> classifications = JsonSerializer.Deserialize<List<string>>(values[0]);
-        List<int> prices = JsonSerializer.Deserialize<List<int>>(values[1]);
-
-        return (classifications, prices);
+        return int.Parse(input.Trim());
     }
 }
