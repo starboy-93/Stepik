@@ -6,34 +6,29 @@ public class MainClass
 {
     public static void Main(string[] args)
     {
-        int n = ReadInput();
-        List<string> result = GenerateList(n);
-        Console.WriteLine(JsonSerializer.Serialize(result));
+        List<int> numbers = ReadInput();
+        int result = 0;
+        string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        for (int i = 1; i < numbers.Count; i++)
+            if (!numbers.Contains(i))
+            {
+                result = i;
+                break;
+            }
+        Console.WriteLine(alphabet[result - 1]);
     }
 
-    public static List<string> GenerateList(int n)
+    public static List<int> ReadInput()
     {
-        var result = new List<string>();
-        if (n == 1)
-            result.Add(new string('#', n));
-        else if (n == 2)
-        {
-            result.Add(new string('#', n));
-            result.Add(new string('#', n));
-        }
-        else
-        {
-            result.Add(new string('#', n));
-            for (int i = 0; i < n - 2; i++)
-                result.Add('#' + new string(' ', n - 2) + '#');
-            result.Add(new string('#', n));
-        } 
-        return result;
-    }
+        List<int> numbers = null;
 
-    public static int ReadInput()
-    {
         string input = Console.ReadLine();
-        return int.Parse(input.Trim());
+        if (!string.IsNullOrEmpty(input))
+        {
+            numbers = JsonSerializer.Deserialize<List<int>>(input);
+        }
+
+        return numbers ?? new List<int>();
     }
 }
