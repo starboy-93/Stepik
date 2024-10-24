@@ -49,5 +49,14 @@ public class MainClass
         List<string> data = JsonSerializer.Deserialize<List<string>>(parts[0]);
         string order = parts[1].Trim();
         return (data, order);
+        List<int> prices = JsonSerializer.Deserialize<List<int>>(values[1]);
+
+        return (classifications, prices);
+        List<int> prices = JsonSerializer.Deserialize<List<int>>(values[1]);
+
+        return (classifications, prices);
+        List<int> prices = JsonSerializer.Deserialize<List<int>>(values[1]);
+
+        return (classifications, prices);
     }
 }
