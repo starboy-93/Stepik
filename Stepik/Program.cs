@@ -1,48 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Collections.Immutable;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 public class MainClass
 {
     public static void Main(string[] args)
     {
-        (List<string> classifications, List<int> prices) = ReadInput();
+        (List<string> data, string order) = ReadInput();
+        List<string> result = CustomSort(data, order);
 
-        List<int> result = Prices(classifications, prices);
-
-        Console.WriteLine(JsonSerializer.Serialize(result));
-    }
-
-    public static List<int> Prices(List<string> classifications, List<int> prices)
-    {
-        var s1 = 0;
-        var s2 = 0;
-
-
-        for (int i = 0; i < classifications.Count; i++)
+        JsonSerializerOptions options = new JsonSerializerOptions
         {
-            if (classifications[i] == "S")
-                s1 += prices[i];
-            else
-            {
-                s1 += prices[i] / 2;
-                s2 += prices[i] / 2;
-            }
-        }
+            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+            WriteIndented = false
+        };
 
-        return new List<int> { s1, s2 };
+        Console.WriteLine(JsonSerializer.Serialize(result, options));
     }
 
-    public static (List<string>, List<int>) ReadInput()
+    public static List<string> CustomSort(List<string> data, string order)
+    {
+        var result = new List<string>();
+        var temp = new List<char>();
+        if (order == "ASC")
+            foreach (string item in data) 
+            {
+                temp = item.ToList();
+                temp.Sort();
+                result.Add(string.Join("",temp));
+            }
+        else
+            foreach (string item in data)
+            {
+                temp = item.ToList();
+                temp.Sort();
+                temp.Reverse();
+                result.Add(string.Join("", temp));
+            }
+        return result;
+    }
+
+    public static (List<string>, string) ReadInput()
     {
         string input = Console.ReadLine();
-
-        string[] values = input.Split(" | ");
-
-        List<string> classifications = JsonSerializer.Deserialize<List<string>>(values[0]);
-        List<int> prices = JsonSerializer.Deserialize<List<int>>(values[1]);
-
-        return (classifications, prices);
+        string[] parts = input.Split(" | ");
+        List<string> data = JsonSerializer.Deserialize<List<string>>(parts[0]);
+        string order = parts[1].Trim();
+        return (data, order);
     }
 }
