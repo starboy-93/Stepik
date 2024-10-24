@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Linq;
 
 public class MainClass
 {
@@ -25,11 +26,11 @@ public class MainClass
         var result = new List<string>();
         var temp = new List<char>();
         if (order == "ASC")
-            foreach (string item in data) 
+            foreach (string item in data)
             {
                 temp = item.ToList();
                 temp.Sort();
-                result.Add(string.Join("",temp));
+                result.Add(string.Join("", temp));
             }
         else
             foreach (string item in data)
@@ -49,14 +50,5 @@ public class MainClass
         List<string> data = JsonSerializer.Deserialize<List<string>>(parts[0]);
         string order = parts[1].Trim();
         return (data, order);
-        List<int> prices = JsonSerializer.Deserialize<List<int>>(values[1]);
-
-        return (classifications, prices);
-        List<int> prices = JsonSerializer.Deserialize<List<int>>(values[1]);
-
-        return (classifications, prices);
-        List<int> prices = JsonSerializer.Deserialize<List<int>>(values[1]);
-
-        return (classifications, prices);
     }
 }
