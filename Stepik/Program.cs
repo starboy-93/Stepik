@@ -1,54 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Linq;
 
-public class MainClass
+class Program
 {
-    public static void Main(string[] args)
+    static void Main()
     {
-        (List<string> data, string order) = ReadInput();
-        List<string> result = CustomSort(data, order);
+        string message1 = Console.ReadLine();
 
-        JsonSerializerOptions options = new JsonSerializerOptions
+        Console.WriteLine(CanEqualizeCharacterCounts(message1).ToString().ToLower());
+    }
+
+    static bool CanEqualizeCharacterCounts(string message)
+    {
+        // Проходим по каждому символу и симулируем его удаление
+        for (int i = 0; i < message.Length; i++)
         {
-            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-            WriteIndented = false
-        };
+            char charToRemove = message[i];
+            Dictionary<char, int> charCount = new Dictionary<char, int>();
 
-        Console.WriteLine(JsonSerializer.Serialize(result, options));
-    }
-
-    public static List<string> CustomSort(List<string> data, string order)
-    {
-        var result = new List<string>();
-        var temp = new List<char>();
-        if (order == "ASC")
-            foreach (string item in data)
+            // Подсчитываем количество оставшихся символов после удаления
+            for (int j = 0; j < message.Length; j++)
             {
-                temp = item.ToList();
-                temp.Sort();
-                result.Add(string.Join("", temp));
+                if (j != i) // Пропускаем удаляемый символ
+                {
+                    if (charCount.ContainsKey(message[j]))
+                    {
+                        charCount[message[j]]++;
+                    }
+                    else
+                    {
+                        charCount[message[j]] = 1;
+                    }
+                }
             }
-        else
-            foreach (string item in data)
-            {
-                temp = item.ToList();
-                temp.Sort();
-                temp.Reverse();
-                result.Add(string.Join("", temp));
-            }
-        return result;
-    }
 
-    public static (List<string>, string) ReadInput()
-    {
-        string input = Console.ReadLine();
-        string[] parts = input.Split(" | ");
-        List<string> data = JsonSerializer.Deserialize<List<string>>(parts[0]);
-        string order = parts[1].Trim();
-        return (data, order);
+            // Проверяем, равны ли все количества оставшихся символов
+            if (charCount.Values.Distinct().Count() == 1)
+            {
+                return true; // Найдено удаление, которое уравнивает количества
+            }
+        }
+
+        return false; // Не найдено подходящее удаление, которое уравнивает количества
     }
 }
